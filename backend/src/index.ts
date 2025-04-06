@@ -1,13 +1,13 @@
 import express from 'express';
 import { appRouter } from './routes';
-// import { errorHandler } from './middleware/errorMiddleware';
+import cookieParser from "cookie-parser";
 import dotenv from 'dotenv';
 import cors from "cors";
 import { prisma } from './lib/db';
 
 const app = express();
 app.use(express.json());
-// app.use(errorHandler)
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 

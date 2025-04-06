@@ -30,7 +30,7 @@ export const createUser = async (req: Request, res: Response) => {
         }
       const token = jwt.sign(
         { id: user.id, role: user.role },
-        process.env.JWT_REFRESH_SECRET as string,
+        process.env.JWT_SECRET as string,
         { expiresIn: '7d' } 
       );
   
@@ -59,7 +59,7 @@ export const createUser = async (req: Request, res: Response) => {
   
       const token = jwt.sign(
         { id: user.id, role: user.role },
-        process.env.JWT_REFRESH_SECRET as string,
+        process.env.JWT_SECRET as string,
         { expiresIn: '7d' }
       );
 

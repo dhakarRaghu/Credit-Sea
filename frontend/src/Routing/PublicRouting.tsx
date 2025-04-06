@@ -9,7 +9,11 @@ interface User {
     role: string;
   }
 
-const PublicRoute: React.FC = () => {
+interface PublicRouteProps {
+  children: React.ReactNode;
+}
+
+const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
      const [loading, setLoading] = useState(true);
      const [error, setError] = useState<string | null>(null);
@@ -46,7 +50,7 @@ const PublicRoute: React.FC = () => {
         : "/dashboard"
       : null;
   
-    return !user && !loading ? <Outlet /> : <Navigate to={redirectPath || "/login"} replace />;
+    return !user && !loading ? <>{children}</>: <Navigate to={redirectPath || "/login"} replace />;
   };
   
   export default PublicRoute;

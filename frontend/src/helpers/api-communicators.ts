@@ -10,6 +10,7 @@ export const loginUser = async (email: string, password: string) => {
   if (res.status !== 200) {
     throw new Error("Unable to login");
   }
+  console.log("res for login", res.data);
   return res.data;
 };
 
@@ -20,16 +21,16 @@ export const signupUser = async (
   role: string = "USER"
 ) => {
   const res = await api.post("/signup", { name, email, password, role });
-  console.log("res for signup", res);
   if (res.status !== 201) {
     throw new Error("Unable to signup");
   }
+  console.log("res for signup", res.data);
   return res.data;
 };
 
 export const useAuth = async () => {
-  const res = await api.get("/getMe");
-  console.log("authdat", res);
+  const res = await api.post("/getMe");
+  console.log("authdat getMe", res.data);
   if (res.status !== 200) {
     throw new Error("Unable to authenticate");
   }
