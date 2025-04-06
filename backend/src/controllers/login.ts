@@ -6,9 +6,15 @@ import { RequestWithUser } from '../middlewares/authMiddleware';
 
 
 export const createUser = async (req: Request, res: Response) => {
+    console.log("req.body in createuser", req.body);
     try {
       const { name, email, password, role } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
+      const existingUser = await prisma.user.findUnique({ where: { email } });
+      if (existingUser) {
+        res.status(201).json({ id: existingUser.id, name: existingUser.name, email: existingUser.email, role: existingUser.role });
+        return
+      }
       const user = await prisma.user.create({
         data: {
           name,
@@ -17,6 +23,7 @@ export const createUser = async (req: Request, res: Response) => {
           role,
         },
       });
+      console.log("user created", user);
         if (!user) {
            res.status(400).json({ message: 'User creation failed' });
            return 
@@ -83,7 +90,8 @@ export const createUser = async (req: Request, res: Response) => {
     }
   };
 
-  export const getMe = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  export const getMe = async (req: RequestWithUser, res: Response) => {
+    console.log("req.user", req.user);
     try {
       const user = await prisma.user.findUnique({
         where: { id: req.user?.id },

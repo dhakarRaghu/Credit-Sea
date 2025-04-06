@@ -5,16 +5,19 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import VerifyDashboard from "./pages/VerifyDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./Routing/PrivateRoute";
+import PublicRoute from "./Routing/PublicRouting";
 
 function App() {
   return (
     <main>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<h1>Home</h1>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        {/* <Route element={<PublicRoute />}> */}
+          {/* <Route path="/" element={<h1>Home</h1>} /> */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        {/* </Route> */}
 
         {/* Protected Routes */}
         <Route

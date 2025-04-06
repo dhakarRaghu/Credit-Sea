@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 export const loginUser = async (email: string, password: string) => {
-  const res = await api.post("/auth/login", { email, password });
+  const res = await api.post("/login", { email, password });
   if (res.status !== 200) {
     throw new Error("Unable to login");
   }
@@ -19,7 +19,8 @@ export const signupUser = async (
   password: string,
   role: string = "USER"
 ) => {
-  const res = await api.post("/auth/signup", { name, email, password, role });
+  const res = await api.post("/signup", { name, email, password, role });
+  console.log("res for signup", res);
   if (res.status !== 201) {
     throw new Error("Unable to signup");
   }
@@ -27,7 +28,8 @@ export const signupUser = async (
 };
 
 export const useAuth = async () => {
-  const res = await api.get("/getMe"); // Use /me instead of /auth-status
+  const res = await api.get("/getMe");
+  console.log("authdat", res);
   if (res.status !== 200) {
     throw new Error("Unable to authenticate");
   }
@@ -35,33 +37,9 @@ export const useAuth = async () => {
 };
 
 export const logoutUser = async () => {
-  const res = await api.post("/auth/logout");
+  const res = await api.post("/logout");
   if (res.status !== 200) {
     throw new Error("Unable to logout");
-  }
-  return res.data;
-};
-
-export const sendChatRequest = async (message: string) => {
-  const res = await api.post("/chat/new", { message });
-  if (res.status !== 200) {
-    throw new Error("Unable to send chat");
-  }
-  return res.data;
-};
-
-export const getUserChats = async () => {
-  const res = await api.get("/chat/all-chats");
-  if (res.status !== 200) {
-    throw new Error("Unable to get chats");
-  }
-  return res.data;
-};
-
-export const deleteUserChats = async () => {
-  const res = await api.delete("/chat/delete");
-  if (res.status !== 200) {
-    throw new Error("Unable to delete chats");
   }
   return res.data;
 };
