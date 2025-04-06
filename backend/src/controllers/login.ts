@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response , NextFunction } from 'express';
 import { prisma } from '../lib/db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
@@ -80,5 +80,21 @@ export const createUser = async (req: Request, res: Response) => {
       res.json({ message: 'Logout successful' });
     } catch (error) {
       res.status(500).json({ message: 'Error logging out', error });
+    }
+  };
+
+  export const getMe = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: req.user?.id },
+        select: { id: true, name: true, email: true, role: true },
+      });
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching user', error });
     }
   };
