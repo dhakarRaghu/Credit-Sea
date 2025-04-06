@@ -1,17 +1,23 @@
 import express from 'express';
-import { userRoutes } from './User';
-
-import { userLogin, userSignup } from '../controlleres/loginUser';
-import { authenticateToken } from '../middlewares/mid_check';
+import { authenticateToken } from '../middlewares/authMiddleware';
+import { createUser, login, logout } from '../controllers/login';
+import { Request, Response } from 'express';
+import { userRoutes } from './user';
+import { verifierRoutes } from './verifier';
+import { adminRoutes } from './admin';
   
 
 
 const appRouter = express.Router();
 
-appRouter.post('/login', userLogin);
-appRouter.post('/signup' , userSignup);
+appRouter.post('/login', login);
+appRouter.post('/signup', createUser); 
+appRouter.post('/logout', authenticateToken, logout);
 
-appRouter.use('/user', authenticateToken, userRoutes);
+appRouter.use('/loan', authenticateToken, userRoutes);
+appRouter.use('/loan/verify', authenticateToken, verifierRoutes);
+appRouter.use('/loan/admin', authenticateToken,adminRoutes);
+
 
 
 export { appRouter };
