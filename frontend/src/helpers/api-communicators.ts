@@ -51,22 +51,29 @@ export const signupUser = async (
   return res.data;
 };
 
-export const useAuth = async () => {
-  const res = await api.post("/getMe");
-  console.log("authdat getMe", res.data);
-  if (res.status !== 200) {
-    throw new Error("Unable to authenticate");
+export const useAuth = async (): Promise<User> => {
+  try {
+    const res = await api.get("/getMe"); // Ensure this matches the backend route
+    console.log("auth data getMe", res.data);
+    if (res.status !== 200) {
+      throw new Error("Unable to authenticate");
+    }
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || "Unable to authenticate");
+    }
+    throw error;
   }
-  return res.data;
 };
 
-export const logoutUser = async () => {
-  const res = await api.post("/logout");
-  if (res.status !== 200) {
-    throw new Error("Unable to logout");
-  }
-  return res.data;
-};
+// export const logoutUser = async () => {
+//   const res = await api.post("/logout");
+//   if (res.status !== 200) {
+//     throw new Error("Unable to logout");
+//   }
+//   return res.data;
+// };
 
 export const createLoan = async (loanData: Omit<Loan, "id" | "createdAt" | "updatedAt" | "status" | "verifiedById" | "approvedById" | "rejectedById" | "rejectionReason">): Promise<Loan> => {
   try {
@@ -179,10 +186,26 @@ export const deleteUser = async (userId : string) => {
 
 import Cookies from "js-cookie";
 
-export const logout = async () => {
+// export const logout = async () => {
+//   try {
+//     Cookies.remove("token");
+//   } catch (error) {
+//     console.error("Failed to remove token:", error);
+//   }
+// };
+
+export const logout = async (): Promise<{ message: string }> => {
   try {
-    Cookies.remove("token");
+    const res = await api.post("/logout");
+    if (res.status !== 200) {
+      throw new Error("Unable to logout");
+    }
+    Cookies.remove("token"); // Remove cookie client-side
+    return res.data;
   } catch (error) {
-    console.error("Failed to remove token:", error);
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || "Unable to logout");
+    }
+    throw error;
   }
 };

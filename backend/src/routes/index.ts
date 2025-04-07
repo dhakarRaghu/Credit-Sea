@@ -12,8 +12,8 @@ const appRouter = express.Router();
 
 appRouter.post('/login', login);
 appRouter.post('/signup', createUser); 
-// appRouter.post('/logout', authenticateToken, logout);
-appRouter.post('/getMe', authenticateToken, getMe);
+appRouter.post('/logout', authenticateToken, logout);
+appRouter.get('/getMe', authenticateToken, getMe);
 
 
 appRouter.use('/loan', authenticateToken, userRoutes);
