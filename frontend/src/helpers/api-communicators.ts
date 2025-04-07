@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://creditsea-backend-hhet.onrender.com/api",
+  baseURL: "https://credit-sea-lz0z.onrender.com/api",
   withCredentials: true, // Send cookies with requests
 });
 
@@ -30,10 +30,10 @@ interface User {
 
 export const loginUser = async (email: string, password: string) => {
   const res = await api.post("/login", { email, password });
+  console.log("res for login", res.data);
   if (res.status !== 200) {
     throw new Error("Unable to login");
   }
-  console.log("res for login", res.data);
   return res.data;
 };
 
@@ -44,10 +44,10 @@ export const signupUser = async (
   role: string = "USER"
 ) => {
   const res = await api.post("/signup", { name, email, password, role });
+  console.log("res for signup", res.data);
   if (res.status !== 201) {
     throw new Error("Unable to signup");
   }
-  console.log("res for signup", res.data);
   return res.data;
 };
 

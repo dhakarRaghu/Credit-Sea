@@ -21,7 +21,7 @@ const Signup: React.FC = () => {
 
     try {
       const response = await signupUser(name, email, password, role); // Send role to backend
-      const { user } = response;
+      const user = response;
 
       if (user) {
         // Determine redirect path based on role
