@@ -11,14 +11,9 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 
-const allowedOrigins = [
-  "https://creditSea.raghvendra.tech", // production
-  "http://localhost:8000",              // dev (Next.js)
-  "http://localhost:5173",              // dev (Vite)
-];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: "http://creditsea.raghvendra.tech/" ,
   credentials: true,
 }));
 
