@@ -10,6 +10,7 @@ import PublicRoute from "./Routing/PublicRouting";
 // import ApplyPage from "./pages/ApplyPage";
 import { UserProvider } from "../src/Routing/UserContext"; // Adjust path as needed
 import ApplyPage from "./pages/ApplyPage";
+import UserManagement from "./pages/UserManagement";
 
 const App: React.FC = () => {
   console.log("Rendering App with path:", window.location.pathname);
@@ -48,6 +49,14 @@ const App: React.FC = () => {
               </PrivateRoute>
             }
           />
+            <Route
+              path="/admin/management"
+              element={
+                <PrivateRoute allowedRoles={["ADMIN"]}>
+                  <UserManagement />
+                </PrivateRoute>
+              }
+            />
           <Route
             path="/admin"
             element={

@@ -15,9 +15,11 @@ appRouter.post('/signup', createUser);
 appRouter.post('/logout', authenticateToken, logout);
 appRouter.post('/getMe', authenticateToken, getMe);
 
+
 appRouter.use('/loan', authenticateToken, userRoutes);
 appRouter.use('/loan/verify', authenticateToken, verifierRoutes);
 appRouter.use('/loan/admin', authenticateToken,adminRoutes);
+appRouter.use('/users', authenticateToken,adminRoutes);
 
 
 

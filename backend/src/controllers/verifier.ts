@@ -29,12 +29,23 @@ export async function updateLoanStatus(req: RequestWithUser, res: Response): Pro
       res.status(400).json({ message: "Invalid status" });
       return;
     }
-
-    const updatedLoan = await prisma.loan.update({
-      where: { id },
-      data: { status },
-    });
-
+    let updatedLoan
+    if(status === "REJECTED" && !req.body.rejectionReason) {
+         updatedLoan = await prisma.loan.update({
+          where: { id },
+          data: { status ,
+            rejectedById: req.user?.id || undefined,
+          },
+        });
+    }
+    if(status === "VERIFIED") {
+         updatedLoan = await prisma.loan.update({
+          where: { id },
+          data: { status ,
+            verifiedById : req.user?.id || undefined,
+          },
+        });
+    }
     res.json(updatedLoan);
   } catch (error) {
     console.error("Error updating loan status:", error);
