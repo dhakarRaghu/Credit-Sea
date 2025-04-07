@@ -137,7 +137,7 @@ const Signup: React.FC = () => {
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-500">
-            Already have an account? <Link to="/login" className="text-green-800 hover:underline">Login here</Link>.
+            Already have an account? <Link to="/login" className="text-blue-800 hover:underline">Login here</Link>.
           </p>
         </CardFooter>
       </Card>

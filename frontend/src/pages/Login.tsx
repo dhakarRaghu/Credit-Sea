@@ -30,11 +30,11 @@ const Login: React.FC = () => {
         toast.success("Logged in successfully!");
         navigate(redirectPath);
       } else {
-        throw new Error("Login failed: No user data returned");
+        throw new Error();
       }
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Login failed. Please try again."
+         "Login failed. Please check your credentials."
       );
     } finally {
       setIsLoading(false);
@@ -113,9 +113,10 @@ const Login: React.FC = () => {
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <p className="text-sm text-gray-500">
-            Don't have an account? Contact your administrator.
-          </p>
+          Don't have an account?
+          <Button className="text-blue-600 hover:underline p-0 h-auto" onClick={() => navigate('/signup')}>
+            Sign up here
+          </Button>
         </CardFooter>
       </Card>
     </div>

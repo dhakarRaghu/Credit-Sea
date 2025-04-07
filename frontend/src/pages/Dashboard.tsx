@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Install if not present: npm install axios
 import { useUser } from "../Routing/UserContext"; // Adjust path
-import { getLoans } from "@/helpers/api-communicators";
+import { getLoans, logout } from "@/helpers/api-communicators";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 interface Loan {
   id: string;
@@ -55,11 +57,25 @@ const Dashboard: React.FC = () => {
       }
     }
   };
+  const handleLogout = async () => {
+    try {
+      await logout(); // Clear the server-side cookie
+      toast.success("Signed out successfully");
+      navigate("/login"); // Redirect to login page
+    } catch (err) {
+      setError("Failed to log out. Please try again.");
+      toast.error("Failed to log out");
+      console.error("Error during logout:", err);
+    }
+  };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-lg text-gray-600">Loading...</div>
+        <div className="relative">
+          <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4 text-lg text-gray-600">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -90,9 +106,13 @@ const Dashboard: React.FC = () => {
               {user ? `${user.name} (${user.role})` : "Guest"}
             </span>
             <div className="relative">
-              <button className="text-sm text-green-700 hover:text-green-900 transition-colors">
-                User ▼
-              </button>
+            <Button
+              onClick={handleLogout}
+              className="text-sm text-red-700 hover:text-green-900 transition-colors"
+              variant="outline"
+            >
+              Sign Out
+            </Button>
               {/* Simple dropdown (can be enhanced with a real menu) */}
               <div className="hidden absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
@@ -112,7 +132,7 @@ const Dashboard: React.FC = () => {
               </div>
               <div>
                 <p className="text-sm font-medium text-green-700">DEFICIT</p>
-                <p className="text-2xl font-bold text-green-900">₦0.0</p>
+                <p className="text-2xl font-bold text-green-900">$0.0</p>
               </div>
             </div>
             <button
@@ -170,7 +190,7 @@ const Dashboard: React.FC = () => {
                   {loans.map((loan) => (
                     <tr key={loan.id} className="border-b hover:bg-gray-50 transition-colors">
                       <td className="p-3 text-gray-700">{loan.reason.slice(0, 20)}{loan.reason.length > 20 ? "..." : ""}</td>
-                      <td className="p-3 text-gray-700">₦{loan.amount.toLocaleString()}</td>
+                      <td className="p-3 text-gray-700">${loan.amount.toLocaleString()}</td>
                       <td className="p-3 text-gray-700">{new Date(loan.createdAt).toLocaleDateString()}</td>
                       <td className="p-3">
                         <span
