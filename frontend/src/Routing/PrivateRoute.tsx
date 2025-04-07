@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../helpers/api-communicators";
 import { useUser } from "./UserContext"; // Adjust path as needed
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-}
 
 interface PrivateRouteProps {
   allowedRoles: string[];

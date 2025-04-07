@@ -176,3 +176,13 @@ export const deleteUser = async (userId : string) => {
     throw error;
   }
 };
+
+import Cookies from "js-cookie";
+
+export const logout = async () => {
+  try {
+    Cookies.remove("token");
+  } catch (error) {
+    console.error("Failed to remove token:", error);
+  }
+};

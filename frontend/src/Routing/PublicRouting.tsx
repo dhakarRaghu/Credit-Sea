@@ -1,6 +1,6 @@
 import { useAuth } from "@/helpers/api-communicators";
 import { useEffect, useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 
 interface User {
     id: string;
@@ -16,7 +16,6 @@ interface PublicRouteProps {
 const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
      const [loading, setLoading] = useState(true);
-     const [error, setError] = useState<string | null>(null);
    
      useEffect(() => {
        let isMounted = true;

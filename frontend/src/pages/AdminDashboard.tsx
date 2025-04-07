@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "../Routing/UserContext"; // Adjust path
-import { getAllLoans, updateLoanStatusByAdmin } from "@/helpers/api-communicators";
+import { getAllLoans, logout, updateLoanStatusByAdmin } from "@/helpers/api-communicators";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
@@ -52,7 +52,14 @@ const AdminDashboard: React.FC = () => {
           getAllLoans(),
           axios.get("/api/loan/verify/stats", { withCredentials: true }),
         ]);
-        setLoans(Array.isArray(loansResponse) ? loansResponse : []);
+        setLoans(
+          Array.isArray(loansResponse)
+            ? loansResponse.map((loan) => ({
+                ...loan,
+                createdAt: loan.createdAt instanceof Date ? loan.createdAt.toISOString() : loan.createdAt,
+              }))
+            : []
+        );
         setStats(statsResponse.data);
       } catch (err) {
         setError("Failed to fetch data");
@@ -66,7 +73,7 @@ const AdminDashboard: React.FC = () => {
 
   const handleUpdateStatus = async (loanId: string, newStatus: "APPROVED" | "REJECTED") => {
     try {
-      const response = await updateLoanStatusByAdmin(loanId, newStatus);
+      await updateLoanStatusByAdmin(loanId, newStatus);
       setSelectedLoan(null); // Close popup after update
       setLoans((prevLoans) =>
         prevLoans.map((loan) => (loan.id === loanId ? { ...loan, status: newStatus } : loan))
@@ -128,7 +135,13 @@ const AdminDashboard: React.FC = () => {
             <a href="#" className="block p-2 hover:bg-green-700 rounded">Investor Accounts</a>
             <a href="#" className="block p-2 hover:bg-green-700 rounded">Calendar</a>
             <Link to="/admin/management" className="block p-2 hover:bg-green-700 rounded">User Management</Link>
-            <a href="#" className="block p-2 hover:bg-green-700 rounded text-red-300">Sign Out</a>
+            <button className="block w-full text-left p-2 hover:bg-green-700 rounded text-red-300" onClick={ async() => {
+                            await logout()
+                          toast.success("Signed out successfully");
+                          navigate("/login");
+                        }}>
+                          Sign Out
+                        </button>
           </nav>
         </aside>
 

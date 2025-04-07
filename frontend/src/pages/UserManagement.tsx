@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "../Routing/UserContext"; // Adjust path
 import { toast } from "sonner";
-import { deleteUser, getAllUsers } from "@/helpers/api-communicators";
+import { deleteUser, getAllUsers, logout } from "@/helpers/api-communicators";
 
 interface User {
   id: string;
@@ -100,7 +100,16 @@ const UserManagement: React.FC = () => {
             <a href="#" className="block p-2 hover:bg-green-700 rounded">Investor Accounts</a>
             <a href="#" className="block p-2 hover:bg-green-700 rounded">Calendar</a>
             <Link to="/admin/usermanagement" className="block p-2 hover:bg-green-700 rounded">User Management</Link>
-            <a href="#" className="block p-2 hover:bg-green-700 rounded text-red-300">Sign Out</a>
+            {/* <a href="#" className="block p-2 hover:bg-green-700 rounded text-red-300">Sign Out</a>  */}
+            <button className="block w-full text-left p-2 hover:bg-green-700 rounded text-red-300" onClick={ async() => {
+                await logout()
+              toast.success("Signed out successfully");
+              navigate("/login");
+            }}>
+              Sign Out
+            </button>
+
+
           </nav>
         </aside>
 

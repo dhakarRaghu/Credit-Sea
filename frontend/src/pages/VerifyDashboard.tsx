@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useUser } from "../Routing/UserContext"; // Adjust path
-import { getAllLoans, updateLoanStatus } from "@/helpers/api-communicators";
+import { getAllLoans, logout, updateLoanStatus } from "@/helpers/api-communicators";
 import { toast } from "sonner";
 
 interface Loan {
@@ -31,7 +30,7 @@ const VerifyDashboard: React.FC = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const [loans, setLoans] = useState<Loan[]>([]);
-  const [stats, setStats] = useState<VerifierStats | null>(null);
+  const [stats] = useState<VerifierStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null); // State for the popup
@@ -46,10 +45,8 @@ const VerifyDashboard: React.FC = () => {
       try {
         setLoading(true);
         const loansResponse = await getAllLoans();
-        setLoans(loansResponse);
-        // Note: Stats fetching is commented out; uncomment and implement if needed
-        // const statsResponse = await axios.get("/api/loan/verify/stats", { withCredentials: true });
-        // setStats(statsResponse.data);
+        setLoans(loansResponse.map((loan) => ({ ...loan, createdAt: loan.createdAt.toString() })));
+
       } catch (err) {
         setError("Failed to fetch data");
         console.error("Error fetching data:", err);
@@ -62,7 +59,7 @@ const VerifyDashboard: React.FC = () => {
 
   const handleUpdateStatus = async (loanId: string, newStatus: "VERIFIED" | "REJECTED") => {
     try {
-      const response = await updateLoanStatus(loanId, newStatus);
+      await updateLoanStatus(loanId, newStatus);
       setSelectedLoan(null); // Close popup after update
       setLoans((prevLoans) =>
         prevLoans.map((loan) => (loan.id === loanId ? { ...loan, status: newStatus } : loan))
@@ -127,7 +124,14 @@ const VerifyDashboard: React.FC = () => {
             <a href="#" className="block p-2 hover:bg-green-700 rounded">Investor Accounts</a>
             <a href="#" className="block p-2 hover:bg-green-700 rounded">Calendar</a>
             <a href="#" className="block p-2 hover:bg-green-700 rounded">Settings</a>
-            <a href="#" className="block p-2 hover:bg-green-700 rounded text-red-300">Sign Out</a>
+            {/* <a href="#" className="block p-2 hover:bg-green-700 rounded text-red-300">Sign Out</a> */}
+            <button className="block w-full text-left p-2 hover:bg-green-700 rounded text-red-300" onClick={ async() => {
+                            await logout();
+                          toast.success("Signed out successfully");
+                          navigate("/login");
+                        }}>
+                          Sign Out
+                        </button>
           </nav>
         </aside>
 

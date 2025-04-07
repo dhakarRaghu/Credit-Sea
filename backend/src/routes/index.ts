@@ -12,7 +12,7 @@ const appRouter = express.Router();
 
 appRouter.post('/login', login);
 appRouter.post('/signup', createUser); 
-appRouter.post('/logout', authenticateToken, logout);
+// appRouter.post('/logout', authenticateToken, logout);
 appRouter.post('/getMe', authenticateToken, getMe);
 
 
