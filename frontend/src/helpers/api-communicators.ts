@@ -161,3 +161,18 @@ export const getAllUsers = async (): Promise<User[]> => {
     throw error;
   }
 };
+
+export const deleteUser = async (userId : string) => {
+  try {
+    const res = await api.delete(`/users/${userId}`, { withCredentials: true });
+    if (res.status !== 200) {
+      throw new Error("Failed to fetch all users");
+    }
+
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || "Failed to fetch all users");
+    }
+    throw error;
+  }
+};

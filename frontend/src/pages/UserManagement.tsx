@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import { useUser } from "../Routing/UserContext"; // Adjust path
 import { toast } from "sonner";
-import { getAllUsers } from "@/helpers/api-communicators";
+import { deleteUser, getAllUsers } from "@/helpers/api-communicators";
 
 interface User {
   id: string;
@@ -43,7 +42,7 @@ const UserManagement: React.FC = () => {
   const handleDeleteUser = async (userId: string) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        await axios.delete(`/api/users/${userId}`, { withCredentials: true });
+        await deleteUser(userId); // Adjust API call as needed
         setUsers(users.filter(user => user.id !== userId));
         toast.success("User deleted successfully");
       } catch (err) {
@@ -68,7 +67,7 @@ const UserManagement: React.FC = () => {
           <div className="flex items-center space-x-4">
             <h1 className="text-xl font-bold text-green-700">CREDIT APP</h1>
             <Link to="/admin" className="text-sm text-green-700 hover:underline">Admin</Link>
-            <span className="text-sm text-green-700">/ User Management</span>
+            <span className="text-sm text-green-700">Admin Management</span>
           </div>
           <div className="flex items-center space-x-4">
             <span className="text-sm text-green-700">{user ? `${user.name} (${user.role})` : "Guest"}</span>
