@@ -13,7 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(cors({
-  origin: "http://creditsea.raghvendra.tech/" ,
+  origin: ["http://creditsea.raghvendra.tech", "http://localhost:5173"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
 
