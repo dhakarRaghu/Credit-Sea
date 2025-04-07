@@ -9,6 +9,7 @@ export interface RequestWithUser extends Request {
 }
 
 export const authenticateToken = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  console.log("All cookies:", req.cookies);
   const token = req.cookies.token;
   console.log("token in auth middleware", token);
   console.log("JWT_SECRET:", process.env.JWT_SECRET);
