@@ -98,3 +98,35 @@ export const getLoans = async (): Promise<Loan[]> => {
     throw error;
   }
 };
+
+export const getAllLoans = async (): Promise<Loan[]> => {
+  try {
+    const res = await api.get("/loan/verify", { withCredentials: true });
+    if (res.status !== 200) {
+      throw new Error("Failed to fetch all loans");
+    }
+    console.log("res for all loans", res.data);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || "Failed to fetch all loans");
+    }
+    throw error;
+  }
+}
+
+export const updateLoanStatus = async (loanId: string, status: "VERIFIED" | "REJECTED", rejectionReason?: string): Promise<Loan> => {
+  try {
+    const res = await api.put(`/loan/verify/${loanId}`, { status, rejectionReason }, { withCredentials: true });
+    if (res.status !== 200) {
+      throw new Error("Failed to update loan status");
+    }
+    console.log("res for update loan status", res.data);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || "Failed to update loan status");
+    }
+    throw error;
+  }
+};
