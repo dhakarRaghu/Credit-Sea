@@ -80,7 +80,7 @@ const App: React.FC = () => {
             }
           />
           <Route path="/unauthorized" element={<h1>Unauthorized Access</h1>} />
-          <Route path="/" element={<Navigate to="/dashboard" replace />} /> {/* Default route */}
+          <Route path="/" element={<Navigate to="/login" replace />} /> {/* Default route */}
         </Routes>
       </main>
     </UserProvider>
