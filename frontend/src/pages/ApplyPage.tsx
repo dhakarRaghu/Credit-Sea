@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createLoan } from "../helpers/api-communicators"; // Adjust import path
-
+// Adjust import paths
 import { toast } from "sonner";
 import { useUser } from "../Routing/UserContext"; // Adjust path
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface LoanData {
   userId: string;
@@ -38,20 +42,24 @@ const ApplyPage: React.FC = () => {
       return;
     }
 
+    if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+      toast.error("Please enter a valid amount");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const loanData: LoanData = {
         userId: user.id,
         customerName: user.name,
-        amount: Number.parseFloat(amount),
+        amount: Number(amount),
         reason,
       };
 
-      await createLoan(loanData);
+      const newLoan = await createLoan(loanData);
 
-      toast.success("Your loan application has been submitted successfully.");
-
+      toast.success(`Loan application submitted successfully. Loan ID: ${newLoan.id}`);
       navigate("/dashboard");
     } catch (error) {
       toast.error(`Failed to submit loan application: ${error instanceof Error ? error.message : "Unknown error"}`);

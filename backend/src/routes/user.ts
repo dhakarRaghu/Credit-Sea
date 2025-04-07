@@ -1,8 +1,11 @@
-import { Router } from 'express';
+import { Router } from "express";
+import { getLoans, LoanApply } from "../controllers/user";
 
 const userRoutes = Router();
 
-// userRoutes.post('/', ShowuserDetails);
-// userRoutes.post('/payment', UserPayment);
+
+userRoutes.get("/", getLoans);
+userRoutes.post("/apply", LoanApply);
+// userRoutes.post("/payment", UserPayment);
 
 export { userRoutes };

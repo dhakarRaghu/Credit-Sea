@@ -5,6 +5,29 @@ const api = axios.create({
   withCredentials: true, // Send cookies with requests
 });
 
+interface Loan {
+  id: string;
+  userId: string;
+  customerName: string;
+  amount: number;
+  reason: string;
+  status: "PENDING" | "VERIFIED" | "APPROVED" | "REJECTED";
+  createdAt: Date;
+  updatedAt: Date;
+  verifiedById?: string;
+  approvedById?: string;
+  rejectedById?: string;
+  rejectionReason?: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  // Add other fields as needed
+}
+
 export const loginUser = async (email: string, password: string) => {
   const res = await api.post("/login", { email, password });
   if (res.status !== 200) {
@@ -43,4 +66,35 @@ export const logoutUser = async () => {
     throw new Error("Unable to logout");
   }
   return res.data;
+};
+
+export const createLoan = async (loanData: Omit<Loan, "id" | "createdAt" | "updatedAt" | "status" | "verifiedById" | "approvedById" | "rejectedById" | "rejectionReason">): Promise<Loan> => {
+  try {
+    const res = await api.post("/loan/apply", loanData, { withCredentials: true });
+    if (res.status !== 201) {
+      throw new Error("Failed to create loan");
+    }
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || "Failed to create loan");
+    }
+    throw error;
+  }
+};
+
+export const getLoans = async (): Promise<Loan[]> => {
+  try {
+    const res = await api.get("/loan", { withCredentials: true });
+    if (res.status !== 200) {
+      throw new Error("Failed to fetch loans");
+    }
+    console.log("res for loans", res.data);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || "Failed to fetch loans");
+    }
+    throw error;
+  }
 };

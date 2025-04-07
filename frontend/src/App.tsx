@@ -9,6 +9,7 @@ import PrivateRoute from "./Routing/PrivateRoute";
 import PublicRoute from "./Routing/PublicRouting";
 // import ApplyPage from "./pages/ApplyPage";
 import { UserProvider } from "../src/Routing/UserContext"; // Adjust path as needed
+import ApplyPage from "./pages/ApplyPage";
 
 const App: React.FC = () => {
   console.log("Rendering App with path:", window.location.pathname);
@@ -45,14 +46,14 @@ const App: React.FC = () => {
               </PrivateRoute>
             }
           />
-          {/* <Route
+          <Route
             path="/loan/apply"
             element={
               <PrivateRoute allowedRoles={["USER"]}>
                 <ApplyPage />
               </PrivateRoute>
             }
-          /> */}
+          />
           <Route
             path="/admin"
             element={
