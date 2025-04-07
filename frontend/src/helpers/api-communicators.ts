@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "https://creditsea-backend-2ibe.onrender.com/api",
   withCredentials: true, // Send cookies with requests
 });
 
