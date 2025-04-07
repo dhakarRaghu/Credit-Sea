@@ -39,7 +39,6 @@ export const createUser = async (req: Request, res: Response) => {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        domain: process.env.COOKIE_DOMAIN,
       });
 
       res.status(201).json({ id: user.id, name: user.name, email: user.email, role: user.role });
@@ -69,7 +68,6 @@ export const createUser = async (req: Request, res: Response) => {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        domain: process.env.COOKIE_DOMAIN,
       });
   
       res.json({
