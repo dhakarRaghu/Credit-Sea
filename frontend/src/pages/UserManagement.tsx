@@ -28,6 +28,7 @@ const UserManagement: React.FC = () => {
       try {
         setLoading(true);
         const response = await getAllUsers();
+           //@ts-ignore
         setUsers(response);
       } catch (err) {
         setError("Failed to fetch users");

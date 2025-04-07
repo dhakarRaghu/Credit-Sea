@@ -6,8 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import VerifyDashboard from "./pages/VerifyDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import PrivateRoute from "./Routing/PrivateRoute";
-import PublicRoute from "./Routing/PublicRouting";
-// import ApplyPage from "./pages/ApplyPage";
+// import PublicRoute from "./Routing/PublicRouting";
 import { UserProvider } from "../src/Routing/UserContext"; // Adjust path as needed
 import ApplyPage from "./pages/ApplyPage";
 import UserManagement from "./pages/UserManagement";
@@ -19,11 +18,26 @@ const App: React.FC = () => {
       <main>
         <Routes>
          
-        
+          {/* Public Routes */}
+          {/* <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <Signup />
+              </PublicRoute>
+            }
+          /> */}
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
             
-
           {/* Protected Routes */}
           <Route
             path="/dashboard"

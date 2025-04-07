@@ -207,7 +207,9 @@ const AdminDashboard: React.FC = () => {
                   <tr key={loan.id} className="border-t">
                     <td className="p-2 text-gray-700">
                       <div className="flex items-center space-x-2">
-                        <img src="/user-icon.png" alt="User" className="w-8 h-8 rounded-full" /> {/* Replace with actual path */}
+                      <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-lg font-bold text-white" style={{ backgroundColor: `#${Math.floor(Math.random()*16777215).toString(16)}` }}>
+                          {loan.customerName.charAt(0).toUpperCase()}
+                        </div>
                         <div>
                           <p>{loan.reason.slice(0, 30)}{loan.reason.length > 30 ? "..." : ""}</p>
                           <p className="text-sm text-gray-500">Updated 1 day ago</p>

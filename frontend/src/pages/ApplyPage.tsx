@@ -22,7 +22,7 @@ const ApplyPage: React.FC = () => {
   const { user } = useUser();
   const [amount, setAmount] = useState("");
   const [loanTenure, setLoanTenure] = useState("");
-  const [employmentStatus, setEmploymentStatus] = useState("");
+  const [, setEmploymentStatus] = useState("");
   const [reason, setReason] = useState("");
   const [employmentAddress, setEmploymentAddress] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
