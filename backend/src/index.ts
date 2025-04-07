@@ -17,7 +17,7 @@ app.use(cors({
   credentials: true,
 }));
 
-dotenv.config();  // so that we can use process.env to access environment variables
+dotenv.config();  
 
 app.use("/api", appRouter);
 
